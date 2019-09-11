@@ -6,7 +6,29 @@ class Arroyo::ObjectsTest < ActiveSupport::TestCase
     @bucket = @client.buckets.open("baz")
   end
 
-  test "downloading" do
+  test "downloading to a path on disk" do
+    stub_request(:get, "https://baz.s3.amazonaws.com/file.txt")
+      .to_return(status: 200, body: "Hello world!")
+
+    Tempfile.open([ "file", ".txt" ]) do |file|
+      @bucket.download "file.txt", file.path
+      assert_equal "Hello world!", file.read
+    end
+  end
+
+  test "downloading to a tempfile" do
+    stub_request(:get, "https://baz.s3.amazonaws.com/file.txt")
+      .to_return(status: 200, body: "Hello world!")
+
+    Tempfile.open([ "file", ".txt" ]) do |file|
+      @bucket.download "file.txt", file
+
+      file.rewind
+      assert_equal "Hello world!", file.read
+    end
+  end
+
+  test "checksumming" do
     stub_request(:get, "https://baz.s3.amazonaws.com/file.txt")
       .to_return(status: 200, body: "Hello world!")
 

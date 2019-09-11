@@ -9,9 +9,10 @@ module Arroyo
     #
     # length - the maximum number of bytes to read (optional; default is 16 KB)
     #
-    # Returns String data from the stream or nil if EOF has been reached.
+    # Returns String data from the stream.
+    # Raises EOFError if the end of the stream was previously reached.
     def readpartial(*args)
-      @source.readpartial(*args)
+      @source.readpartial(*args) || raise(EOFError)
     end
 
     # Public: Iterate over chunks of String data as they're read from the stream.
@@ -20,7 +21,13 @@ module Arroyo
     #
     # Returns nothing.
     def each(*args)
-      while chunk = readpartial(*args)
+      loop do
+        begin
+          chunk = readpartial(*args)
+        rescue EOFError
+          break
+        end
+
         yield chunk
       end
     end
