@@ -1,4 +1,4 @@
-require "arroyo/stream"
+require "arroyo/reader"
 
 module Arroyo
   class Service
@@ -11,7 +11,7 @@ module Arroyo
     def download(key)
       client.get(key) do |response|
         if response.status.ok?
-          yield Stream.new(response.body)
+          yield Reader.new(response.body)
         else
           raise Error, "Unexpected response status"
         end

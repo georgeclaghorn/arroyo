@@ -8,7 +8,7 @@ module Arroyo
 
     # Public: Download the contents of the object at the given key.
     #
-    # If a block is provided, an Arroyo::Stream is yielded to it.
+    # If a block is provided, an Arroyo::Reader is yielded to it.
     #
     # When no block is provided, a destination is required. Object data is written to it via IO.copy_stream.
     #

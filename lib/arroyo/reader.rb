@@ -1,7 +1,7 @@
 module Arroyo
-  class Stream
-    def initialize(source)
-      @source = source
+  class Reader
+    def initialize(stream)
+      @stream = stream
     end
 
     # Public: Read at most `length` bytes from the stream, blocking only if it has no data immediately
@@ -12,7 +12,7 @@ module Arroyo
     # Returns String data from the stream.
     # Raises EOFError if the end of the stream was previously reached.
     def readpartial(*args)
-      @source.readpartial(*args) || raise(EOFError)
+      @stream.readpartial(*args) || raise(EOFError)
     end
 
     # Public: Iterate over chunks of String data as they're read from the stream.
