@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/georgeclaghorn/webmock.git
+  revision: d562337db21ad3b09244a6e6b2b02521b5591e18
+  branch: httprb-readpartial-fix
+  specs:
+    webmock (3.7.2)
+      addressable (>= 2.3.6)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
+
 PATH
   remote: .
   specs:
@@ -25,7 +35,7 @@ GEM
       safe_yaml (~> 1.0.0)
     domain_name (0.5.20180417)
       unf (>= 0.0.5, < 1.0.0)
-    hashdiff (0.3.9)
+    hashdiff (1.0.0)
     http (4.1.1)
       addressable (~> 2.3)
       http-cookie (~> 1.0)
@@ -47,10 +57,6 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.6)
-    webmock (3.5.1)
-      addressable (>= 2.3.6)
-      crack (>= 0.3.2)
-      hashdiff
 
 PLATFORMS
   ruby
@@ -59,7 +65,7 @@ DEPENDENCIES
   arroyo!
   byebug (>= 11.0.1)
   rake (>= 12.3.2)
-  webmock (>= 3.5.1)
+  webmock!
 
 BUNDLED WITH
    1.17.2
