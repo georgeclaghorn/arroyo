@@ -16,6 +16,10 @@ module Arroyo
       perform :put, path, body: body
     end
 
+    def delete(path)
+      perform :delete, path
+    end
+
     private
       def perform(method, path, body: nil)
         Request.new(

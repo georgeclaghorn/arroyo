@@ -66,4 +66,10 @@ class Arroyo::ObjectsTest < ActiveSupport::TestCase
 
     assert_requested request
   end
+
+  test "deleting" do
+    request = stub_request(:delete, "https://baz.s3.amazonaws.com/file.txt").to_return(status: 204)
+    @bucket.delete "file.txt"
+    assert_requested request
+  end
 end

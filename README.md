@@ -66,6 +66,14 @@ File.open("/path/to/README.md", "r") do |file|
 end
 ```
 
+### Deleting
+
+Delete an object:
+
+```ruby
+bucket.delete("README.md")
+```
+
 ## License
 
 Copyright (c) 2019 George Claghorn.

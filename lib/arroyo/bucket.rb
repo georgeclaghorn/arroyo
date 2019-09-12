@@ -59,6 +59,19 @@ module Arroyo
       File.open(source, "rb") { |file| service.upload(key, file) }
     end
 
+    # Public: Delete an object by key.
+    #
+    # key - the String key of the object to delete
+    #
+    # Example:
+    #
+    #   bucket.delete("file.txt")
+    #
+    # Returns true.
+    def delete(key)
+      service.delete(key)
+    end
+
     private
       def service
         @service ||= client.service_for(bucket: name)

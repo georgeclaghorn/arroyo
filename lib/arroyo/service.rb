@@ -23,5 +23,11 @@ module Arroyo
         response.status.ok? || raise(Error, "Unexpected response status")
       end
     end
+
+    def delete(key)
+      interface.delete(key).then do |response|
+        response.status.success? || raise(Error, "Unexpected response status")
+      end
+    end
   end
 end
