@@ -2,10 +2,10 @@ require "arroyo/request"
 
 module Arroyo
   class Interface
-    def initialize(credentials:, region:, bucket:)
+    def initialize(credentials:, region:, endpoint:)
       @credentials = credentials
       @region      = region
-      @bucket      = bucket
+      @endpoint    = endpoint
     end
 
     def get(path)
@@ -31,7 +31,7 @@ module Arroyo
       end
 
       def url_for(path)
-        "https://#{@bucket}.s3.amazonaws.com/" + path.remove(/\A\//)
+        @endpoint.url_for(path)
       end
 
       def signer
