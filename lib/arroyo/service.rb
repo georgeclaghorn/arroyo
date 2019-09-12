@@ -2,14 +2,14 @@ require "arroyo/reader"
 
 module Arroyo
   class Service
-    attr_reader :client
+    attr_reader :interface
 
-    def initialize(client)
-      @client = client
+    def initialize(interface)
+      @interface = interface
     end
 
     def download(key)
-      client.get(key).then do |response|
+      interface.get(key).then do |response|
         if response.status.ok?
           yield Reader.new(response.body)
         else

@@ -1,7 +1,7 @@
 require "arroyo/credentials"
 require "arroyo/buckets"
 require "arroyo/service"
-require "arroyo/api/client"
+require "arroyo/interface"
 
 module Arroyo
   class Client
@@ -16,12 +16,12 @@ module Arroyo
 
     # Internal
     def service_for(bucket:)
-      Service.new client_for(bucket: bucket)
+      Service.new interface_for(bucket: bucket)
     end
 
     private
-      def client_for(bucket:)
-        API::Client.new credentials: @credentials, region: @region, bucket: bucket
+      def interface_for(bucket:)
+        Interface.new credentials: @credentials, region: @region, bucket: bucket
       end
   end
 end
