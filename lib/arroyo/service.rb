@@ -9,7 +9,7 @@ module Arroyo
     end
 
     def download(key)
-      client.get(key) do |response|
+      client.get(key).then do |response|
         if response.status.ok?
           yield Reader.new(response.body)
         else

@@ -10,11 +10,11 @@ module Arroyo
       end
 
       def get(path)
-        request(:get, path).then { |response| yield response }
+        perform :get, path
       end
 
       private
-        def request(method, path)
+        def perform(method, path)
           Request.new(method: method, url: url_for(path), signer: signer).perform
         end
 
