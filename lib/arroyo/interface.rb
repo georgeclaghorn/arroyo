@@ -12,7 +12,7 @@ module Arroyo
       perform :get, path
     end
 
-    def put(path, body:)
+    def put(path, body: nil)
       perform :put, path, body: body
     end
 
