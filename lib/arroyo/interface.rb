@@ -12,9 +12,18 @@ module Arroyo
       perform :get, path
     end
 
+    def put(path, body:)
+      perform :put, path, body: body
+    end
+
     private
-      def perform(method, path)
-        Request.new(method: method, url: url_for(path), signer: signer).perform
+      def perform(method, path, body: nil)
+        Request.new(
+          method: method,
+          url:    url_for(path),
+          body:   body,
+          signer: signer
+        ).perform
       end
 
       def url_for(path)

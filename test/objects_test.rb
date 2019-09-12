@@ -10,17 +10,17 @@ class Arroyo::ObjectsTest < ActiveSupport::TestCase
     stub_request(:get, "https://baz.s3.amazonaws.com/file.txt")
       .to_return(status: 200, body: "Hello world!")
 
-    Tempfile.open([ "file", ".txt" ]) do |file|
+    Tempfile.create([ "file", ".txt" ]) do |file|
       @bucket.download "file.txt", file.path
       assert_equal "Hello world!", file.read
     end
   end
 
-  test "downloading to a tempfile" do
+  test "downloading to a file" do
     stub_request(:get, "https://baz.s3.amazonaws.com/file.txt")
       .to_return(status: 200, body: "Hello world!")
 
-    Tempfile.open([ "file", ".txt" ]) do |file|
+    Tempfile.create([ "file", ".txt" ]) do |file|
       @bucket.download "file.txt", file
 
       file.rewind
@@ -39,5 +39,31 @@ class Arroyo::ObjectsTest < ActiveSupport::TestCase
     end.base64digest
 
     assert_equal Digest::SHA256.base64digest("Hello world!"), checksum
+  end
+
+  test "uploading from a path on disk" do
+    request = stub_request(:put, "https://baz.s3.amazonaws.com/file.txt")
+      .with(body: "Hello world!").to_return(status: 200)
+
+    Tempfile.create([ "file", ".txt" ]) do |file|
+      file.write "Hello world!"
+      file.flush
+      @bucket.upload "file.txt", file.path
+    end
+
+    assert_requested request
+  end
+
+  test "uploading from a file" do
+    request = stub_request(:put, "https://baz.s3.amazonaws.com/file.txt")
+      .with(body: "Hello world!").to_return(status: 200)
+
+    Tempfile.create([ "file", ".txt" ]) do |file|
+      file.write "Hello world!"
+      file.rewind
+      @bucket.upload "file.txt", file
+    end
+
+    assert_requested request
   end
 end

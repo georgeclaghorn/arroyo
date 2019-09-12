@@ -17,5 +17,11 @@ module Arroyo
         end
       end
     end
+
+    def upload(key, io)
+      interface.put(key, body: io).then do |response|
+        response.status.ok? || raise(Error, "Unexpected response status")
+      end
+    end
   end
 end

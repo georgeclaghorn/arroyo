@@ -39,6 +39,26 @@ module Arroyo
       end
     end
 
+    # Public: Add an object at the given key.
+    #
+    # key    - the String key of the object to create
+    # source - a File or a String path
+    #
+    # Examples:
+    #
+    #   # Upload an object from a path on disk:
+    #   bucket.upload("file.txt", "/path/to/file.txt")
+    #
+    #   # Upload a file:
+    #   File.open("/path/to/file.txt", "r") do |file|
+    #     bucket.upload("file.txt", file)
+    #   end
+    #
+    # Returns true.
+    def upload(key, source)
+      File.open(source, "rb") { |file| service.upload(key, file) }
+    end
+
     private
       def service
         @service ||= client.service_for(bucket: name)

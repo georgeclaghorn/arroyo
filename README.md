@@ -4,7 +4,7 @@ Arroyo is a stream-oriented Ruby client for [Amazon S3][s3]. When uploading and 
 exposes the underlying HTTP request and response body streams, enabling efficient and flexible
 data transfer.
 
-Currently, this library is an incomplete sketch. Only downloading is implemented.
+**Warning:** This library is currently an incomplete sketch and not suitable for production use.
 
 [s3]: https://aws.amazon.com/s3/
 
@@ -22,7 +22,9 @@ Open a bucket:
 bucket = client.buckets.open("my-bucket")
 ```
 
-Download an object to disk:
+### Downloading
+
+Download an object to a path on disk:
 
 ```ruby
 bucket.download("README.md", "/path/to/README.md")
@@ -46,6 +48,22 @@ checksum = Digest::SHA256.new.tap do |digest|
     io.each(1.megabyte) { |chunk| digest << chunk }
   end
 end.base64digest
+```
+
+### Uploading
+
+Upload an object from a path on disk:
+
+```ruby
+bucket.upload("README.md", "/path/to/README.md")
+```
+
+Upload an object from a file:
+
+```ruby
+File.open("/path/to/README.md", "r") do |file|
+  bucket.upload("README.md", file)
+end
 ```
 
 ## License
