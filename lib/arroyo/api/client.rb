@@ -1,14 +1,12 @@
 require "arroyo/api/request"
-require "aws-sigv4"
 
 module Arroyo
   module API
     class Client
-      def initialize(access_key_id:, secret_access_key:, region:, bucket:)
-        @access_key_id     = access_key_id
-        @secret_access_key = secret_access_key
-        @region            = region
-        @bucket            = bucket
+      def initialize(credentials:, region:, bucket:)
+        @credentials = credentials
+        @region      = region
+        @bucket      = bucket
       end
 
       def get(path)
@@ -25,11 +23,7 @@ module Arroyo
         end
 
         def signer
-          @signer ||= Aws::Sigv4::Signer.new \
-            access_key_id:     @access_key_id,
-            secret_access_key: @secret_access_key,
-            region:            @region,
-            service:           "s3"
+          @signer ||= @credentials.signer_for(region: @region)
         end
     end
   end

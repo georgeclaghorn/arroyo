@@ -1,3 +1,4 @@
+require "arroyo/credentials"
 require "arroyo/buckets"
 require "arroyo/service"
 require "arroyo/api/client"
@@ -5,7 +6,8 @@ require "arroyo/api/client"
 module Arroyo
   class Client
     def initialize(access_key_id:, secret_access_key:, region:)
-      @access_key_id, @secret_access_key, @region = access_key_id, secret_access_key, region
+      @credentials = Credentials.new(access_key_id: access_key_id, secret_access_key: secret_access_key)
+      @region      = region
     end
 
     def buckets
@@ -19,11 +21,7 @@ module Arroyo
 
     private
       def client_for(bucket:)
-        API::Client.new \
-          access_key_id:     @access_key_id,
-          secret_access_key: @secret_access_key,
-          region:            @region,
-          bucket:            bucket
+        API::Client.new credentials: @credentials, region: @region, bucket: bucket
       end
   end
 end
