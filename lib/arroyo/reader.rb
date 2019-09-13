@@ -20,15 +20,17 @@ module Arroyo
     # length - the maximum number of bytes to read in each iteration (optional; default is 16 KB)
     #
     # Returns nothing.
-    def each(*args)
+    def each(length = nil)
+      buffer = ""
+
       loop do
         begin
-          chunk = readpartial(*args)
+          readpartial length, buffer
         rescue EOFError
           break
         end
 
-        yield chunk
+        yield buffer
       end
     end
 
