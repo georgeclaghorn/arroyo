@@ -1,3 +1,5 @@
+require "uri"
+
 module Arroyo
   class Endpoint
     attr_reader :protocol, :host
@@ -12,7 +14,7 @@ module Arroyo
     end
 
     def url_for(path)
-      "#{base_url}/#{path.remove(/\A\//)}"
+      "#{base_url}/#{URI.encode(path.remove(/\A\//))}"
     end
   end
 end
