@@ -5,8 +5,8 @@ module Arroyo
     attr_reader :protocol, :host
 
     def initialize(protocol: "https", host: "s3.amazonaws.com")
-      @protocol = protocol.presence_in(%w[ http https ]) || raise(ArgumentError, "Unsupported protocol: #{protocol}")
-      @host     = host
+      @protocol = protocol.presence_in(%w[ http https ]) || raise(ArgumentError, "Unsupported protocol: #{protocol.inspect}")
+      @host     = host.presence || raise(ArgumentError, "Expected host, got #{host.inspect}")
     end
 
     def base_url

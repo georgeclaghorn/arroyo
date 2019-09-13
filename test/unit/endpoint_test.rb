@@ -10,7 +10,15 @@ class Arroyo::EndpointTest < ActiveSupport::TestCase
       Arroyo::Endpoint.new(protocol: "ftp", host: "s3.amazonaws.com")
     end
 
-    assert_equal "Unsupported protocol: ftp", error.message
+    assert_equal 'Unsupported protocol: "ftp"', error.message
+  end
+
+  test "host validation" do
+    error = assert_raises ArgumentError do
+      Arroyo::Endpoint.new(protocol: "https", host: nil)
+    end
+
+    assert_equal 'Expected host, got nil', error.message
   end
 
   test "base URL" do
