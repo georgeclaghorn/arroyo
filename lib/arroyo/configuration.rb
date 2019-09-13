@@ -1,3 +1,5 @@
+require "arroyo/credentials"
+
 module Arroyo
   class Configuration
     attr_reader :credentials, :region, :options
