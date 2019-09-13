@@ -1,7 +1,7 @@
 require "arroyo/request"
 
 module Arroyo
-  class Interface
+  class Session
     def initialize(credentials:, region:, endpoint:)
       @credentials = credentials
       @region      = region
