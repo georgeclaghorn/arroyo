@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = ">= 2.6.0"
 
   s.add_dependency "activesupport", ">= 5.2.0"
+  s.add_dependency "addressable"
   s.add_dependency "http", ">= 4.1.1"
   s.add_dependency "aws-sigv4", ">= 1.1.0"
 

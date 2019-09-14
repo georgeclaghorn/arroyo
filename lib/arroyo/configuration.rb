@@ -10,8 +10,8 @@ module Arroyo
       @options     = options
     end
 
-    def protocol
-      options[:protocol] || "https"
+    def scheme
+      options[:scheme] || "https"
     end
 
     def host

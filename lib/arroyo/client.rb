@@ -28,7 +28,7 @@ module Arroyo
       end
 
       def endpoint_for(bucket:)
-        Endpoint.new protocol: configuration.protocol, host: "#{bucket}.#{configuration.host}"
+        Endpoint.new scheme: configuration.scheme, host: "#{bucket}.#{configuration.host}"
       end
   end
 end
