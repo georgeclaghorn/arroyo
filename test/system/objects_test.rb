@@ -46,4 +46,16 @@ class Arroyo::ObjectsSystemTest < ActiveSupport::TestCase
 
     assert_equal Digest::SHA256.base64digest("Hello world!"), checksum
   end
+
+  test "uploading and downloading binary data" do
+    @bucket.upload "file.txt", file_fixture("daisy.jpg").open
+
+    checksum = Digest::SHA256.new.tap do |digest|
+      @bucket.download("file.txt") do |io|
+        io.each { |chunk| digest << chunk }
+      end
+    end.base64digest
+
+    assert_equal Digest::SHA256.file(file_fixture("daisy.jpg")).base64digest, checksum
+  end
 end
