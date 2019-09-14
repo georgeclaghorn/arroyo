@@ -17,6 +17,6 @@ Gem::Specification.new do |s|
   s.add_dependency "aws-sigv4", ">= 1.1.0"
 
   s.add_development_dependency "rake", ">= 12.3.2"
-  s.add_development_dependency "webmock", ">= 3.5.1"
+  s.add_development_dependency "webmock", ">= 3.7.3"
   s.add_development_dependency "byebug", ">= 11.0.1"
 end
