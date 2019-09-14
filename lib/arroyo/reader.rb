@@ -11,8 +11,18 @@ module Arroyo
     #
     # Returns String data from the stream.
     # Raises EOFError if the end of the stream was previously reached.
-    def readpartial(*args)
-      @stream.readpartial(*args) || raise(EOFError)
+    def readpartial(length = 16.kilobytes, buffer = nil)
+      if chunk = @stream.readpartial(length)
+        # Hack: IO.copy_stream expects us to accept the second buffer arg, but
+        # HTTP::Connection#readpartial doesn't support it. Play make-believe.
+        if buffer.nil?
+          chunk
+        else
+          buffer.replace(chunk)
+        end
+      else
+        raise EOFError
+      end
     end
 
     # Public: Iterate over chunks of String data as they're read from the stream.
@@ -20,17 +30,15 @@ module Arroyo
     # length - the maximum number of bytes to read in each iteration (optional; default is 16 KB)
     #
     # Returns nothing.
-    def each(length = nil)
-      buffer = ""
-
+    def each(length = 16.kilobytes)
       loop do
         begin
-          readpartial length, buffer
+          chunk = readpartial(length)
         rescue EOFError
           break
         end
 
-        yield buffer
+        yield chunk
       end
     end
 
