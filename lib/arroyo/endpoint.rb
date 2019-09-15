@@ -13,7 +13,7 @@ module Arroyo
       @base ||= Addressable::URI.new(scheme: scheme, host: host)
     end
 
-    def url_for(path, **params)
+    def url_for(path, params = {})
       base.merge(path: path, query: params.to_query).normalize!
     end
   end

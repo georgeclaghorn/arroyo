@@ -31,7 +31,7 @@ module Arroyo
       end
 
       def url_for(path)
-        @endpoint.url_for(path)
+        @endpoint.url_for(*path)
       end
 
       def signer
