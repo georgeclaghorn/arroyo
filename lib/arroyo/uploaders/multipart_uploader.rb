@@ -1,9 +1,10 @@
+require "concurrent/promises"
 require "arroyo/resource"
 
 module Arroyo
   class MultipartUploader
     attr_reader :upload
-    delegate :session, :key, to: :upload
+    delegate :session, :key, :executor, to: :upload
 
     def initialize(upload)
       @upload = upload
@@ -35,14 +36,16 @@ module Arroyo
 
       def partition
         parts.collect do |part|
-          put([ key, "uploadId" => @id, "partNumber" => part.number ], body: part.body).then do |response|
-            if response.status.ok?
-              part.etag = response.etag || raise(Error, "Response did not include a part ETag")
-            else
-              raise Error, "Unexpected response status"
+          future do
+            put([ key, "uploadId" => @id, "partNumber" => part.number ], body: part.body).then do |response|
+              if response.status.ok?
+                part.etag = response.etag || raise(Error, "Response did not include a part ETag")
+              else
+                raise Error, "Unexpected response status"
+              end
             end
           end
-        end
+        end.each(&:wait!)
       end
 
       def abort
@@ -58,6 +61,10 @@ module Arroyo
         end
       end
 
+
+      def future(&block)
+        Concurrent::Promises.future_on(executor, &block)
+      end
 
       def post(*args)
         Resource.new session.post(*args)

@@ -2,13 +2,14 @@ require "arroyo/uploaders"
 
 module Arroyo
   class Upload
-    attr_reader :session, :key, :source
+    attr_reader :session, :key, :source, :executor
     delegate :size, to: :source
 
-    def initialize(session:, key:, source:)
-      @session = session
-      @key     = key
-      @source  = source
+    def initialize(session:, key:, source:, executor:)
+      @session  = session
+      @key      = key
+      @source   = source
+      @executor = executor
     end
 
     def perform

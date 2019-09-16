@@ -6,6 +6,7 @@ PATH
       addressable (>= 2.7.0)
       aws-sigv4 (>= 1.1.0)
       builder (>= 3.2.0)
+      concurrent-ruby (>= 1.1.0)
       http (>= 4.1.0)
       nokogiri (>= 1.10.0)
 

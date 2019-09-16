@@ -4,6 +4,8 @@ require "arroyo/endpoint"
 require "arroyo/service"
 require "arroyo/session"
 
+require "concurrent/executors"
+
 module Arroyo
   class Client
     def initialize(**options)
@@ -14,9 +16,10 @@ module Arroyo
       Buckets.new self
     end
 
+
     # Internal
     def service_for(bucket:)
-      Service.new session_for(bucket: bucket)
+      Service.new session: session_for(bucket: bucket), executor: executor
     end
 
     private
@@ -29,6 +32,15 @@ module Arroyo
 
       def endpoint_for(bucket:)
         Endpoint.new scheme: configuration.scheme, host: "#{bucket}.#{configuration.host}"
+      end
+
+
+      def executor
+        @executor ||= Concurrent::ThreadPoolExecutor.new \
+          min_threads: configuration.min_thread_count,
+          max_threads: configuration.max_thread_count,
+          idletime:    configuration.thread_idle_timeout,
+          max_queue:   0
       end
   end
 end

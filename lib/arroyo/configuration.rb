@@ -17,5 +17,18 @@ module Arroyo
     def host
       options[:host] || "s3.amazonaws.com"
     end
+
+
+    def min_thread_count
+      options.dig(:threads, :minimum) || 0
+    end
+
+    def max_thread_count
+      options.dig(:threads, :maximum) || 10
+    end
+
+    def thread_idle_timeout
+      options.dig(:threads, :idle_timeout) || 60.seconds
+    end
   end
 end

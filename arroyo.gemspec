@@ -12,12 +12,13 @@ Gem::Specification.new do |s|
 
   s.required_ruby_version = ">= 2.6.0"
 
-  s.add_dependency "activesupport", ">= 6.0.0"
-  s.add_dependency "addressable",   ">= 2.7.0"
-  s.add_dependency "http",          ">= 4.1.0"
-  s.add_dependency "aws-sigv4",     ">= 1.1.0"
-  s.add_dependency "nokogiri",      ">= 1.10.0"
-  s.add_dependency "builder",       ">= 3.2.0"
+  s.add_dependency "activesupport",   ">= 6.0.0"
+  s.add_dependency "addressable",     ">= 2.7.0"
+  s.add_dependency "aws-sigv4",       ">= 1.1.0"
+  s.add_dependency "builder",         ">= 3.2.0"
+  s.add_dependency "concurrent-ruby", ">= 1.1.0"
+  s.add_dependency "http",            ">= 4.1.0"
+  s.add_dependency "nokogiri",        ">= 1.10.0"
 
   s.add_development_dependency "rake",    ">= 12.3.2"
   s.add_development_dependency "webmock", ">= 3.7.3"

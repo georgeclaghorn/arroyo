@@ -3,10 +3,11 @@ require "arroyo/upload"
 
 module Arroyo
   class Service
-    attr_reader :session
+    attr_reader :session, :executor
 
-    def initialize(session)
-      @session = session
+    def initialize(session:, executor:)
+      @session  = session
+      @executor = executor
     end
 
     def download(key)
@@ -20,7 +21,7 @@ module Arroyo
     end
 
     def upload(key, source)
-      Upload.new(session: session, key: key, source: source).perform
+      Upload.new(session: session, key: key, source: source, executor: executor).perform
     end
 
     def delete(key)
