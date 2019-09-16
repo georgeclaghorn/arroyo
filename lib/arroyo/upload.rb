@@ -2,26 +2,24 @@ require "arroyo/uploaders"
 
 module Arroyo
   class Upload
-    attr_reader :session, :key, :source, :executor
+    attr_reader :key, :source
     delegate :size, to: :source
 
-    def initialize(session:, key:, source:, executor:)
-      @session  = session
-      @key      = key
-      @source   = source
-      @executor = executor
+    def initialize(key:, source:)
+      @key    = key
+      @source = source
     end
 
-    def perform
-      uploader.call
+    def perform(**kwargs)
+      uploader_for(**kwargs).call
     end
 
     private
-      def uploader
+      def uploader_for(session:, executor:)
         if size < 10.megabytes
-          SimpleUploader.new self
+          SimpleUploader.new session: session, upload: self
         else
-          MultipartUploader.new self
+          MultipartUploader.new session: session, executor: executor, upload: self
         end
       end
   end

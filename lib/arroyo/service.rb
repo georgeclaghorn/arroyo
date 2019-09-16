@@ -21,7 +21,7 @@ module Arroyo
     end
 
     def upload(key, source)
-      Upload.new(session: session, key: key, source: source, executor: executor).perform
+      Upload.new(key: key, source: source).perform(session: session, executor: executor)
     end
 
     def delete(key)

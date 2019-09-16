@@ -3,11 +3,10 @@ require "arroyo/resource"
 
 module Arroyo
   class MultipartUploader
-    attr_reader :upload
-    delegate :session, :key, :executor, to: :upload
-
-    def initialize(upload)
-      @upload = upload
+    def initialize(session:, executor:, upload:)
+      @session  = session
+      @executor = executor
+      @upload   = upload
     end
 
     def call
@@ -24,6 +23,9 @@ module Arroyo
     end
 
     private
+      attr_reader :session, :executor, :upload
+      delegate :key, to: :upload
+
       def initiate
         post([ key, uploads: true ]).then do |response|
           if response.status.ok?
