@@ -58,4 +58,18 @@ class Arroyo::ObjectsSystemTest < ActiveSupport::TestCase
 
     assert_equal Digest::SHA256.file(file_fixture("daisy.jpg")).base64digest, checksum
   end
+
+  test "uploading from a large file in multiple parts" do
+    @bucket.upload "starry_night.jpg", file_fixture("starry_night.jpg").open
+
+    checksum = Digest::SHA256.new.tap do |digest|
+      @bucket.download("starry_night.jpg") do |io|
+        io.each { |chunk| digest << chunk }
+      end
+    end.base64digest
+
+    assert_equal Digest::SHA256.file(file_fixture("starry_night.jpg")).base64digest, checksum
+  ensure
+    @bucket.delete "starry_night.jpg"
+  end
 end

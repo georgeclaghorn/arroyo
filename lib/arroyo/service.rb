@@ -1,4 +1,5 @@
 require "arroyo/reader"
+require "arroyo/upload"
 
 module Arroyo
   class Service
@@ -18,10 +19,8 @@ module Arroyo
       end
     end
 
-    def upload(key, io)
-      session.put(key, body: io).then do |response|
-        response.status.ok? || raise(Error, "Unexpected response status")
-      end
+    def upload(key, source)
+      Upload.new(session: session, key: key, source: source).perform
     end
 
     def delete(key)
