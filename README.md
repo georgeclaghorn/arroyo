@@ -40,12 +40,12 @@ Tempfile.open(["README", ".md"]) do |tempfile|
 end
 ```
 
-Compute an object’s checksum 1 MB at a time:
+Compute an object’s checksum in small chunks:
 
 ```ruby
 checksum = Digest::SHA256.new.tap do |digest|
   bucket.download("README.md") do |io|
-    io.each(1.megabyte) { |chunk| digest << chunk }
+    io.each { |chunk| digest << chunk }
   end
 end.base64digest
 ```

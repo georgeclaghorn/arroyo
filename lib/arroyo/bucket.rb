@@ -21,10 +21,10 @@ module Arroyo
     #   # Download an object to disk:
     #   bucket.download("file.txt", "/path/to/file.txt")
     #
-    #   # Compute an object's checksum 5 MB at a time:
+    #   # Compute an object's checksum in small chunks:
     #   checksum = Digest::SHA256.new.tap do |digest|
     #     bucket.download("file.txt") do |io|
-    #       io.each(5.megabytes) { |chunk| digest << chunk }
+    #       io.each { |chunk| digest << chunk }
     #     end
     #   end.base64digest
     #
